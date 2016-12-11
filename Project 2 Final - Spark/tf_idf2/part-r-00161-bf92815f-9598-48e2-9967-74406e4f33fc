@@ -1,0 +1,3 @@
+{"doc_name":"hdfs://sandbox.hortonworks.com:8020/user/root/final/test/doc3.txt","word":"the","tf_idf":0.2218487496163564}
+{"doc_name":"hdfs://sandbox.hortonworks.com:8020/user/root/final/test/doc1.txt","word":"the","tf_idf":0.2218487496163564}
+{"doc_name":"hdfs://sandbox.hortonworks.com:8020/user/root/final/test/doc4.txt","word":"the","tf_idf":0.2218487496163564}

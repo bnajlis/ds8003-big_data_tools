@@ -1,0 +1,5 @@
+numbers = sc.textFile("hdfs://sandbox.hortonworks.com:8020/user/root/assgn5/integer_list.txt")
+oddnumbers = numbers.filter(lambda odd: int(odd)%2 == 1)
+oddnumbers.count()
+evennumbers = numbers.filter(lambda even: int(even)%2 == 0)
+evennumbers.count()

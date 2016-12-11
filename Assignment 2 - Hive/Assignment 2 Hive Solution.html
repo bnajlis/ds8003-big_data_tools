@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body style="font-family: verdana, sans-serif;font-size: 12px;">
+<p><strong>Creating Tables and Loading Data:</strong></p>
+<p><strong>u.data:</strong></p>
+<ul>
+<li>
+<p class="p1"><span class="s1">create table <strong>udata</strong> (userid bigint, itemid bigint, rating smallint, time bigint)&nbsp;</span>row format delimited fields terminated by '\t';</p>
+</li>
+<li>
+<p class="p1"><span class="s1">&nbsp;load data inpath '/user/root/u.data'&nbsp;</span>overwrite into table udata;</p>
+</li>
+</ul>
+<p><strong>u.user:</strong></p>
+<ul>
+<li><span class="s1">create table <strong>uuser</strong> (userid bigint, age int, gender string, occupation string,&nbsp; zipcode string) r</span>ow format delimited fields terminated by '|';</li>
+<li>
+<p class="p1"><span class="s1">load data inpath '/user/root/u.user'&nbsp;</span>&nbsp;overwrite into table uuser;</p>
+</li>
+</ul>
+<p></p>
+<p><strong>Assignment</strong></p>
+<ul>
+<li>Find the user id who has rated the most number of movies</li>
+</ul>
+<p>&nbsp; &nbsp; &nbsp; &nbsp;<strong> select userid, count(*) as total_reviews from udata group by userid order by total_reviews desc limit 1;</strong></p>
+<ul>
+<li>Find average rating &nbsp;received by movie&nbsp;with id 178.</li>
+</ul>
+<p class="p1"><span class="s1">&nbsp; &nbsp; &nbsp; <strong>&nbsp;select itemid, avg(rating) as avg_count from &nbsp;</strong></span><strong>udata where itemid=178 group by itemid;</strong></p>
+<p class="p1"><strong>or&nbsp;</strong></p>
+<p class="p1"><strong><span class="s1"><strong>select avg(rating) as avg_count from &nbsp;</strong></span><strong>udata where itemid=178;</strong></strong></p>
+<ul>
+<li>The users belonging to which 3 occupations provided the most number of ratings (<em>What would you do if you needed to find the 3 occupations that provided the least number of ratings??</em>)</li>
+</ul>
+<p class="p1"><span class="s1">&nbsp; &nbsp; &nbsp; &nbsp; <strong>&nbsp; select a.occupation, count(b.rating) as total_occupation from&nbsp;</strong></span><strong>udata b join uuser a on a.userid = b.userid group by a.occupation order by &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; total_occupation desc limit 3;</strong></p>
+<ul>
+<li>How unique many male users provided at least one rating of 5
+<p class="p1"><span class="s1">&nbsp;<strong>select a.rating, count(distinct(b.userid)) from&nbsp;</strong></span><strong>uuser b join udata a on a.userid = b.userid where a.rating = 5 and b.gender='M' group by rating;</strong></p>
+</li>
+</ul>
+</body>
+</html>

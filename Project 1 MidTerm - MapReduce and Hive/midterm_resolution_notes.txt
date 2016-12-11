@@ -1,0 +1,47 @@
+hdfs dfs -ls
+hdfs dfs -put u.data
+hdfs dfs -put u.item.less
+hdfs dfs -put u.join
+hive
+
+CREATE DATABASE midterm;
+USE midterm;
+CREATE TABLE midterm.data (
+	user_id STRING,
+	movie_id STRING,
+	rating INT,
+	ts TIMESTAMP
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t';
+LOAD DATA INPATH '/user/root/u.data' 
+OVERWRITE INTO TABLE midterm.data;
+SELECT * FROM midterm.data LIMIT 5;
+
+CREATE TABLE midterm.item (
+	movie_id INT,
+	movie_name STRING,
+	release_date STRING
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t';
+LOAD DATA INPATH '/user/root/u.item.less' 
+OVERWRITE INTO TABLE midterm.item;
+SELECT * FROM midterm.item LIMIT 5;
+
+SELECT movie_id, rating
+FROM midterm.data
+WHERE rating > 3
+AND movie_id = 998;
+
+hdfs dfs -put midterm_item1_mapper.py
+
+
+hadoop jar /usr/hdp/2.4.0.0-169/hadoop-mapreduce/hadoop-streaming-2.7.1.2.4.0.0-169.jar -file ./midterm_item1_mapper.py -mapper midterm_item1_mapper.py -file ./midterm_item1_reducer.py -reducer midterm_item1_reducer.py -input /user/root/u.data -output /user/root/midterm_item1.out
+
+SELECT i.movie_name, d.rating
+FROM midterm.data d
+	JOIN midterm.item i
+	ON d.movie_id = i.movie_id
+WHERE d.rating > 3
+AND i.movie_name = 'Cabin Boy (1994)';
+
+hadoop jar /usr/hdp/2.4.0.0-169/hadoop-mapreduce/hadoop-streaming-2.7.1.2.4.0.0-169.jar -file ./midterm_item2_mapper.py -mapper midterm_item2_mapper.py -file ./midterm_item2_reducer.py -reducer midterm_item2_reducer.py -input /user/root/u.join -output /user/root/midterm_item2.out

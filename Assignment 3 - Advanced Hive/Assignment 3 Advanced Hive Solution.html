@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body style="font-family: verdana, sans-serif;font-size: 12px;">
+<p>-- load action.txt, comedy.txt, thriller.txt into hdfs</p>
+<p>hadoop fs -put /root/lab/action /user/root/action<br />hadoop fs -put /root/lab/comedy /user/root/comedy<br />hadoop fs -put /root/lab/thriller /user/root/thriller<br />hadoop fs -put /root/lab/action_comedy_thriller /user/root/action_comedy_thriller</p>
+<p>---------<br />-- created a database "ml" to hold all the tables<br />-------------<br />1. create table called movies_whole to hold all genre data<br />CREATE TABLE ml.movies_whole <br />(movieid int, <br />movie_name string,<br />genre string)<br />ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';</p>
+<p><br />2. load file into table<br />hive&gt; LOAD DATA INPATH '/user/root/action_comedy_thriller'<br />INTO TABLE movies_whole;</p>
+<p>3. create a table called movies_partition with 2 columns (movieid, movie_title) that is partitioned on genre</p>
+<p>hive&gt; CREATE TABLE ml.movies_part <br />(movieid int, <br />movie_name string)<br />PARTITIONED BY (genre string)<br />ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';</p>
+<p><br />&nbsp;4. load each file into a partition</p>
+<p>hive&gt; LOAD DATA INPATH '/user/root/action'<br />INTO TABLE ml.movies_part<br />PARTITION(genre='Action');<br />hive&gt; LOAD DATA INPATH '/user/root/comedy'<br />INTO TABLE ml.movies_part<br />PARTITION(genre='Comedy');<br />hive&gt; LOAD DATA INPATH '/user/root/thriller'<br />INTO TABLE ml.movies_part<br />PARTITION(genre='Thriller');</p>
+<p>5. describe the structure of the table and list the partitions (hint: describe and show partitions command)</p>
+<p>hive&gt; DESCRIBE ml.movies_part;<br />hive&gt; SHOW PARTITIONS ml.movies_part;</p>
+<p>6. look at the hive warehouse to see the 3 subdirectories</p>
+<p>hive&gt; dfs -ls /apps/hive/warehouse/ml.db/movies_part</p>
+<p>Each genre&nbsp;becomes a folder. Hence using a where clause with genre will load data only from the specific folders and will not have to process the entire table</p>
+<p>7. Typically - anything with a where clause on genre&nbsp;would run faster on movie_part. Data size also matters. If data is tiny then there may or may not be a difference.&nbsp;</p>
+<p><br />8. With some help from the "select" statement in 7(e) -&gt; create a table called movie_year_temp <br />with following columns (movieid, movie_title, movie_year)</p>
+<p><em>create table movie_year_temp as Select movieid, movie_name, cast(regexp_extract(movie_name, '([1-2][0-9][0-9][0-9])',1) as int) as movie_year from movies_whole;</em><br /><br />9. create a table called year_buckets with the same column definitions as movie_with_year, but with 8 buckets, clustered on movieid<br />hive&gt; CREATE TABLE ml.year_buckets <br />( <br />movieid int, <br />movie_name string, <br />movie_year int)<br />CLUSTERED BY (movie_year) INTO 8 BUCKETS;</p>
+<p>10. use insert overwrite table to load the rows in movie_year_temp into year_buckets.&nbsp;</p>
+<p>http://hadooptutorial.info/bucketing-in-hive/</p>
+<p>hive&gt; set hive.enforce.bucketing = true;&nbsp;<br />hive&gt; INSERT OVERWRITE TABLE ml.year_buckets <br />SELECT *<br />FROM ml.movie_year_temp;</p>
+<p>OR</p>
+<p>without enforcing bucketing</p>
+<p>hive&gt; SET mapred.reduce.tasks = 8; [ Same as number of buckets]<br /><span>hive&gt; INSERT OVERWRITE TABLE ml.year_buckets </span><br /><span>SELECT *</span><br /><span>FROM ml.movie_year_temp CLUSTER BY movie_year;</span></p>
+<p><br />11. view the 8 files&nbsp;that were created. <br />dfs -ls /apps/hive/warehouse/ml.db/year_buckets<br /><br />12. SELECT histogram_numeric(movie_year, 5) FROM&nbsp;ml.movie_year_temp;</p>
+</body>
+</html>

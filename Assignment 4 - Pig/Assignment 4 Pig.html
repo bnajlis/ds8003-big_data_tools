@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body style="font-family: verdana, sans-serif;font-size: 12px;">
+<p><strong>Datasets:</strong></p>
+<ol>
+<li><strong>full_text_clean.txt:&nbsp;</strong>(userid, lat, lon, tweet, modified_lat, modified_lon) [<span>[D2L -&gt; Assignment 3 &ndash; Pig -&gt;</span> full_text_clean.txt]</li>
+<li><strong>cities_clean.txt:&nbsp;</strong>(city_name, lat, lon, modified_lat, modified_lon) [D2L -&gt; Assignment 3 &ndash; Pig -&gt; cities_clean.txt]</li>
+<li>Copy <strong>full_text_clean.txt&nbsp;and cities_clean.txt&nbsp;</strong>to the virtual machine (<strong>Filezilla</strong>)</li>
+<li>Copy <strong>full_text_clean.txt&nbsp;and cities_clean.txt&nbsp;</strong>from virtual machine into HDFS (<strong>hadoop fs -put</strong>)</li>
+</ol>
+<p><strong>Submission:</strong></p>
+<ol>
+<li>Submit the pig commands (copy it into a file and submit)</li>
+<li>Submit using Assessment -&gt; Dropbox -&gt; Pig Assignment 3</li>
+</ol>
+<p><strong>Assignment (Total of 10)</strong></p>
+<p>1) Get a 10% sample from full_text_clean.txt and store results in full_text_small.txt <strong>(2)</strong></p>
+<p>2)&nbsp;Find the top 3 words&nbsp;used in tweets from file&nbsp;<span> full_text_clean.txt <strong>(2)</strong></span></p>
+<p>3)&nbsp;Calculate total number of records in cities_clean.txt<strong>&nbsp;</strong>file &nbsp;<strong>(2)</strong></p>
+<p>4)&nbsp;Find closest city for each tweet <strong>(4)</strong></p>
+<p><strong>Hint:</strong></p>
+<ul>
+<li>The lat-lon in full_text_clean.txt file doesn&rsquo;t match directly with the lat-lon of the cities in cities_clean.txt file. For that purpose, I have pre-processed both files to include a modified lat and lon column (last two columns of both files). So for each&nbsp;of&nbsp;geo-tagged tweets, you will map to multiple nearby cities using the last two columns of both files. &nbsp;After that, for each geo-tagged tweet, you then calculate the distance using the actual lat-lon values and pick the closest&nbsp;city.</li>
+<li>Calculating Euclidean Distance (pig example)
+<ul>
+<li>SQRT((lat_1 &ndash; lat_2) * (lat_1 &ndash; lat_2) + (lon_1 &ndash; lon_2) * (lon_1 &ndash; lon_2))</li>
+<li>Lat_1/Lon_1 refer to lat/lon in&nbsp;full_text_clean.txt</li>
+<li>Lat_2/Lon_2 refer to lat/lon in&nbsp;cities_clean.txt</li>
+</ul>
+</li>
+</ul>
+<p></p>
+<p><span>&nbsp;</span></p>
+</body>
+</html>

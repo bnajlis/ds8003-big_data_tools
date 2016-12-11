@@ -1,0 +1,8 @@
+document = sc.textFile("hdfs://sandbox.hortonworks.com:8020/user/root/assgn5/shakespeare_100.txt")
+words = document.flatMap(lambda w: w.split(" "))
+wcount = words.map(lambda w: (w, 1))
+cntbyword = wcount.reduceByKey(lambda x, y : x + y) 
+top10 = cntbyword.top(10, key=lambda i: i[1])
+print(top10)
+btm10 = cntbyword.top(10, key=lambda i: -i[1])
+print(btm10)

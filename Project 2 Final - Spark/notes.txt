@@ -1,0 +1,1 @@
+spark-submit final.py -whadoop,test -n10 -dhdfs://sandbox.hortonworks.com:8020/user/root/final/test/*

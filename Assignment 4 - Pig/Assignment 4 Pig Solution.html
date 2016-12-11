@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body style="font-family: verdana, sans-serif;font-size: 12px;">
+<p>1) Get a 10% sample from full_text_clean.txt and store results in full_text_small.txt<br />https://pig.apache.org/docs/r0.7.0/piglatin_ref2.html#SAMPLE<br />a = load '/user/root/pig/full_text.txt' as <span>(id:chararray, lat:chararray, lon:chararray, tweet:chararray, lat_r:chararray, lon_r:chararray);</span><br />b = sample a 0.1;<br />store b into '/user/root/pig/full_text_small.txt';</p>
+<p></p>
+<p>2) Find the top 3 words&nbsp;in the tweets.&nbsp;</p>
+<p>a_small = load '/user/root/full_text_clean.txt' as <span>(id:chararray, lat:chararray, lon:chararray, tweet:chararray, lat_r:chararray, lon_r:chararray);</span><br />b_small = foreach a_small generate FLATTEN(TOKENIZE(LOWER(tweet))) as token;<br />e_small = group b_small by token;<br />f_small = foreach e_small generate group as token, COUNT(b_small) as cnt;<br />g_small = order f_small by cnt desc;<br />h_small = limit g_small 3;</p>
+<p>3) Calculate total number of records in cities_clean.txt file <br />a = load '/user/root/cities_clean.txt' as <span>(city_name:chararray, &nbsp;lat:chararray, lon:chararray, &nbsp;lat_r:chararray, lon_r:chararray);</span><br />b = group a ALL;<br />c = foreach b generate COUNT(a) as cnt;<br />dump c;</p>
+<p>4) Find closest city for each tweet ID [ The first column of the full_text_clean.txt file]</p>
+<p>tw_1 =&nbsp;<span> load '/user/root/full_text_clean.txt' as (id:chararray, lat:chararray, lon:chararray, tweet:chararray, lat_r:chararray, lon_r:chararray);</span></p>
+<p>city_1 =&nbsp;<span>load '/user/root/cities_clean.txt' as (city_name:chararray, &nbsp;lat:chararray, lon:chararray, &nbsp;lat_r:chararray, lon_r:chararray);</span></p>
+<p>j = join tw_1 by (lat_r, lon_r) left, city_1 by (lat_r, lon_r);</p>
+<p>j_1 = foreach j generate tw_1::id as id, tw_1::lat as lat, tw_1::lon as lon, city_1::lat as lat_city, city_1::lon as lon_city, tw_1::tweet as tweet, city_1::city_name as city_name, SQRT( ((double)tw_1::lat - (double)city_1::lat) * ((double)tw_1::lat - (double)city_1::lat) + ((double)tw_1::lon - (double)city_1::lon) * ((double)tw_1::lon - (double)city_1::lon) ) as distance;</p>
+<p>j_2 = group j_1 by id;</p>
+<p>j_3 = foreach j_2 {<br /> sort = order j_1 by distance asc;<br /> lm = limit sort 1;<br /> generate flatten(group) as (id), flatten(lm.tweet) as tweet, flatten(lm.city_name) as city;<br />};</p>
+<p>j_4 = filter j_3 by city IS NOT NULL;<br />store j_3 into '/user/root/j_4';</p>
+</body>
+</html>

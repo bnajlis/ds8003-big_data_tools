@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body style="font-family: verdana, sans-serif;font-size: 12px;">
+<p><strong>Dataset:</strong></p>
+<ol>
+<li>We are going to use the Dataset : <strong>movielens_less.zip</strong> &nbsp;(The entire dataset is available here&nbsp;Dataset and Scripts -&gt; Movielens &amp; IMDB-&gt; movielens.zip. I selected a 2 files for this assignment)</li>
+<li>Unzip the movielens_less.zip.&nbsp;</li>
+<li>The README file in the zip file will give you information of the project that collected the data</li>
+<li>The zip contains files: <strong>u.data </strong>and<strong> u.user</strong></li>
+<li>
+<p class="p1"><span class="s1"><strong>u.data</strong> &nbsp; &nbsp; -- The dataset has&nbsp;100000 ratings by 943 users on 1682 movies. &nbsp;</span><span class="s1">&nbsp;</span>The file has <strong>4&nbsp;tab</strong>&nbsp; ("\t") separated columns. &nbsp;The first column is the&nbsp;<strong>user id, </strong>the second column is the<strong> movie id, </strong>the third column is the<strong> rating, </strong>and<strong> &nbsp;</strong>the fourth column is a<strong>&nbsp;timestamp</strong>.</p>
+</li>
+<li><strong>u.user</strong> - Demographic information about the users; this has <strong>5</strong> p<strong>ipe "|"</strong> separated &nbsp;columns. the first column is the&nbsp;<strong>user id, </strong>the second column is the<strong> age, </strong>the third column is the<strong> gender (</strong>Male denoted by 'M' and Female denoted by 'F'<strong>), </strong>fourth column is the<strong> occupation, and &nbsp;the fifth column is the zip code</strong>. The user ids are the ones used in the u.data data set.</li>
+<li>Copy <strong>u.data and u.user</strong> to the virtual machine (<strong>Filezilla</strong>)</li>
+<li>Copy <strong>u.data and u.user</strong> from virtual machine into HDFS (<strong>hadoop fs -put</strong>)</li>
+<li>Create one table for u.data and one table for u.user in Hive</li>
+</ol>
+<p><strong>Submission:</strong></p>
+<p>1. Submit both the&nbsp;hive commands and the results (copy it into a file and submit)</p>
+<p><strong>Example:</strong> if you submit a file called assignment1.txt. It should contain the following information for every question.&nbsp;</p>
+<p><em>Question XX: (XX is the question number)</em></p>
+<p><em>HiveQL: Select count (*) from u.data;</em></p>
+<p><em>Result: 100000</em></p>
+<p>2. Submit using Assessment -&gt; Assignments&nbsp;-&gt; Assignment 2 - Hive</p>
+<p><strong>Assignment (Total of 10)</strong></p>
+<ol>
+<li>Find the user id who has rated the most number of movies (3)</li>
+<li>Find average rating &nbsp;received by movie&nbsp;with id 178. (3)</li>
+<li>The users belonging to which 3 occupations provided&nbsp;the most number of ratings (2)</li>
+<li>How many unique male users provided at least one rating of 5 (2)</li>
+</ol>
+</body>
+</html>

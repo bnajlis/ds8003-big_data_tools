@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body style="font-family: verdana, sans-serif;font-size: 12px;">
+<p><b>Open-book, Open-notes, Open-internet</b></p>
+<p><strong>Dataset:</strong></p>
+<ol>
+<li>We are going to use the Dataset :&nbsp;<strong>midterm_data.zip</strong>&nbsp;[Download Dataset from our D2L website under MidTerm Exam]</li>
+<li>Unzip the midterm_data.zip.&nbsp;</li>
+<li>The zip contains files:&nbsp;<strong>u.data&nbsp;</strong>and<strong>&nbsp;u.item.less</strong> and<strong> u.join</strong></li>
+<li>
+<p class="p1"><span class="s1"><strong>u.data</strong>&nbsp;&nbsp; &nbsp; -- The dataset has&nbsp;100000 ratings by 943 users on 1682 movies. &nbsp;</span><span class="s1">&nbsp;</span>The file has&nbsp;<strong>4&nbsp;tab</strong>&nbsp; ("\t") separated columns. &nbsp;The first column is the&nbsp;<strong>user id,&nbsp;</strong>the second column is the<strong>&nbsp;movie id,&nbsp;</strong>the third column is the<strong>&nbsp;rating,&nbsp;</strong>and<strong>&nbsp;&nbsp;</strong>the fourth column is a<strong>&nbsp;timestamp</strong>.</p>
+</li>
+<li><strong>u.item</strong>&nbsp;- Information about the items (movies); this is a tab separated file with 3 columns. The first column is <strong>movie id</strong>, the second column is<strong>movie name</strong>, and the third column is <strong>release date</strong>.</li>
+<li><strong>u.join - </strong>has data from u.data and u.item combined. The first column column has "A" or "B". <strong>"A" denotes u.data and "B" denotes u.item.less.</strong>You can use it for the Map-Reduce job for the question number 2.&nbsp;</li>
+<li>Copy&nbsp;<strong>u.data and u.item.less and u.join&nbsp;</strong>to the virtual machine (<strong>Filezilla</strong>)</li>
+<li>Copy&nbsp;<strong>u.data and u.item.less and u.join&nbsp;</strong>from virtual machine into HDFS (<strong>hadoop fs -put</strong>)</li>
+<li>Create <strong>one table for u.data and one table for u.item.less</strong> in Hive</li>
+</ol>
+<p><strong>Submission:&nbsp;</strong></p>
+<p>1. Submit the&nbsp;hive commands, Map-reduce python programs, sample results (described below), and screenshot(s) to show that queries or jobs executed.&nbsp;</p>
+<p>2. Submit using Assessment -&gt;&nbsp;Assignments-&gt;&nbsp;MidTerm</p>
+<p>3. Submit Text (Word) document or PDF file. Paste your code and any explanations into that file. You can additionally also submit your python codes.&nbsp;</p>
+<p>4. Table creation and loading statements do not have to be included in the submission</p>
+<p><strong>Question: Solve each question using Hive Query and Map-Reduce&nbsp;(Total of 25)</strong></p>
+<p><strong>Note: </strong>You <strong>DO NOT</strong> have to de-duplicate the results. The same movie with same rating can appear multiple times in the results.&nbsp;</p>
+<p><strong><strong>1. Find all rows (or lines) with&nbsp;<strong>rating greater than 3 and output the movie id and rating.</strong></strong>&nbsp;</strong>[Hive - 5 points; Map-Reduce - 5 points]</p>
+<ul>
+<ul>
+<li><strong>Sample Result For Submission:</strong>&nbsp;Submit all lines/rows corresponding to ID 998</li>
+</ul>
+</ul>
+<p><strong><strong>2. Find all rows (or lines) with&nbsp;<strong>rating greater than 3 and output the movie name and rating.</strong></strong></strong>&nbsp;[Hive - 7.5 points; Map-Reduce - 7.5 points]</p>
+<ol>
+<ul>
+<li><strong>Sample Result for Submission:</strong>&nbsp;Submit all lines/rows corresponding to&nbsp;Movie Name "Cabin Boy (1994)"</li>
+</ul>
+</ol>
+</body>
+</html>

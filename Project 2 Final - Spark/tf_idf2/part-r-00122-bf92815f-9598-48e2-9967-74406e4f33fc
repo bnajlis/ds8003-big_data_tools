@@ -1,0 +1,2 @@
+{"doc_name":"hdfs://sandbox.hortonworks.com:8020/user/root/final/test/doc5.txt","word":"world","tf_idf":0.3979400086720376}
+{"doc_name":"hdfs://sandbox.hortonworks.com:8020/user/root/final/test/doc1.txt","word":"world","tf_idf":0.3979400086720376}

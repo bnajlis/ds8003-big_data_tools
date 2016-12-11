@@ -1,0 +1,16 @@
+{
+    "remotePath": "./",
+    "host": "localhost",
+    "username": "root",
+    "password": "hadoop",
+    "port": 2222,
+    "protocol": "sftp",
+    "uploadOnSave": true,
+    "passive": false,
+    "debug": false,
+    "privateKeyPath": null,
+    "ignore": [
+        "\\.vscode",
+        "\\.git"
+    ]
+}

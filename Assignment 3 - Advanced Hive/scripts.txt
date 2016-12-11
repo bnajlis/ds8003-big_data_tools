@@ -1,0 +1,65 @@
+hdfs dfs -put action
+hdfs dfs -put comedy
+hdfs dfs -put thriller
+hdfs dfs -put action_comedy_thriller
+hive
+
+CREATE DATABASE assgn03;
+USE assgn03;
+CREATE TABLE assgn03.movies_whole(
+	movie_id INT,
+	movie_name STRING,
+	genre STRING
+) ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t';
+
+LOAD DATA INPATH '/user/root/action_comedy_thriller'
+OVERWRITE INTO TABLE assgn03.movies_whole;
+
+CREATE TABLE assgn03.movies_part(
+	movie_id INT,
+	movie_name STRING
+) PARTITIONED BY (genre STRING);
+
+LOAD DATA INPATH '/user/root/action'
+INTO TABLE assgn03.movies_part
+PARTITION(genre='action');
+LOAD DATA INPATH '/user/root/comedy'
+INTO TABLE assgn03.movies_part
+PARTITION(genre='comedy');
+LOAD DATA INPATH '/user/root/thriller'
+INTO TABLE assgn03.movies_part
+PARTITION(genre='thriller');
+
+DESCRIBE assgn03.movies_part;
+SHOW PARTITIONS assgn03.movies_part;
+
+hdfs dfs -ls /apps/hive/warehouse/
+hdfs dfs -ls /apps/hive/warehouse/assgn03.db
+hdfs dfs -ls /apps/hive/warehouse/assgn03.db/movies_part/
+
+Select t.year, count(*) as count from (Select regexp_extract(movie_name, '([1-2][0-9][0-9][0-9])',1) as year from movies_whole ) t group by year order by count desc limit 5;
+
+CREATE TABLE assgn03.movie_year_temp AS
+Select movie_id, movie_name as movie_title, regexp_extract(movie_name, '([1-2][0-9][0-9][0-9])',1) as movie_year from movies_whole;
+
+CREATE TABLE assgn03.year_buckets(
+	movie_id INT,
+	movie_name STRING,
+	movie_title STRING,
+	movie_year STRING
+) CLUSTERED BY (movie_year) INTO 8 BUCKETS;
+
+SET hive.enforce.bucketing = true;
+INSERT INTO TABLE assgn03.year_buckets
+	SELECT 
+		movie_id,
+		movie_title,
+		movie_title,
+		movie_year
+	FROM assgn03.movie_year_temp;
+	
+SELECT 
+	explode(histogram_numeric(INT(movie_year), 5))
+FROM movie_year_temp;
+	

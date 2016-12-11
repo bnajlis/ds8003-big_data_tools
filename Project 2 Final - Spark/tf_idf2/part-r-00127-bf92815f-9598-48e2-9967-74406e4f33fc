@@ -1,0 +1,2 @@
+{"doc_name":"hdfs://sandbox.hortonworks.com:8020/user/root/final/test/doc4.txt","word":"weekend","tf_idf":0.3979400086720376}
+{"doc_name":"hdfs://sandbox.hortonworks.com:8020/user/root/final/test/doc2.txt","word":"weekend","tf_idf":0.3979400086720376}
